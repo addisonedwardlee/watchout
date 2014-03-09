@@ -1,13 +1,13 @@
 /* global d3 */
-//create the things
+//create the home space
 var svg = d3.select("svg");
 
 //add hero
 svg.append("svg:image")
   .attr("xlink:href", "bear.png")
   .attr("class", "hero")
-  .attr("width", 30)
-  .attr("height", 50)
+  .attr("width", parseInt(svg.attr("height")) * 0.13)
+  .attr("height", parseInt(svg.attr("width")) * 0.06)
   .attr("x", 350)
   .attr("y", 225);
 
@@ -23,7 +23,7 @@ svg.append("svg:image")
 });
 
 //add enemy
-svg.selectAll(".enemy").data(d3.range(10))
+svg.selectAll(".enemy").data(d3.range(15))
   .enter()
   .append("svg:image")
   .attr("class", "enemy")
@@ -37,12 +37,14 @@ svg.selectAll(".enemy").data(d3.range(10))
 
 //assign references to the things
 var hero = d3.select(".hero");
-var heroWidth = hero.attr("width");
-var heroHeight = hero.attr("height");
+var heroHeight = d3.select(".hero").attr("height");
+var heroWidth = d3.select(".hero").attr("height");
 var honey = d3.select(".honey");
 var honeyWidth = honey.attr("width");
 var honeyHeight = honey.attr("height");
 var allEnemies = d3.selectAll(".enemy");
+var currentScore = d3.select('#curScore');
+var highScore = d3.select('#highScore');
 
 //move hero function
 svg.on("mousemove", function(){
@@ -102,35 +104,42 @@ var honeyDetected = function(){
   return false;
 };
 
+// var growBear = function(){
+//   heroWidth = heroWidth * 1.04;
+//   heroHeight = heroHeight * 1.1;
+
+//   hero.attr("width", heroWidth)
+//   .attr("height", heroHeight);
+// };
+
 var collisionCheck = function(){
-  var curScore = parseInt(d3.select('#curScore').text());
-  var highScore = parseInt(d3.select('#highScore').text());
+  var currentScoreNum = parseInt(currentScore.text());
+  var highScoreNum = parseInt(highScore.text());
   if(collisionDetected()){
-    if(curScore > highScore) {
-      parseInt(d3.select('#highScore').text(curScore));
+    if(currentScoreNum > highScoreNum) {
+      parseInt(highScore.text(currentScoreNum));
     }
-    d3.select('#curScore').text("0");
-    d3.select('.playField').classed({
+    currentScore.text("0");
+    d3.select(".playField").classed({
       "collided": true,
       "safe": false
     });
     setTimeout(function(){
-      d3.select('.playField').classed({
+      d3.select(".playField").classed({
         "collided": false,
         "safe": true
       });
     }, 100);
   }else{
-    d3.select('#curScore').text(curScore+1);
+    currentScore.text(currentScoreNum+1);
   }
   if(honeyDetected()){
-    d3.select('#curScore').text(curScore+100);
+    currentScore.text(currentScoreNum+100);
     honey.attr({
-      "x": function(){ return 30 + Math.random()*640;},
-      "y": function(){ return 30 + Math.random()*390;}
-    })
-    heroHeight+1;
-    heroWidth+2;
+      "x": function(){ return 15 + Math.random()*620;},
+      "y": function(){ return 15 + Math.random()*360;}
+    });
+    // growBear();
   }
   setTimeout(collisionCheck, 20);
 };
