@@ -132,9 +132,25 @@ var collisionCheck = function(){
     }, 100);
   }else{
     currentScore.text(currentScoreNum+1);
+    if(currentScoreNum > highScoreNum) {
+      highScore.style({
+        "color": "red"
+      });
+      d3.select(".high").style({
+        "color": "red"
+      });
+      highScore.text(currentScoreNum);
+    } else {
+      highScore.style({
+        "color": "black"
+      });
+      d3.select(".high").style({
+        "color": "black"
+      })
+    }
   }
   if(honeyDetected()){
-    currentScore.text(currentScoreNum+125);
+    currentScore.text(currentScoreNum+150);
     honey.attr({
       "x": function(){ return 15 + Math.random()*620;},
       "y": function(){ return 15 + Math.random()*360;}
