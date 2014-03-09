@@ -6,8 +6,8 @@ var svg = d3.select("svg");
 svg.append("svg:image")
   .attr("xlink:href", "bear.png")
   .attr("class", "hero")
-  .attr("width", parseInt(svg.attr("height")) * 0.13)
-  .attr("height", parseInt(svg.attr("width")) * 0.06)
+  .attr("width", 30)
+  .attr("height", 60)
   .attr("x", 350)
   .attr("y", 225);
 
@@ -23,7 +23,7 @@ svg.append("svg:image")
 });
 
 //add enemy
-svg.selectAll(".enemy").data(d3.range(15))
+svg.selectAll(".enemy").data(d3.range(20))
   .enter()
   .append("svg:image")
   .attr("class", "enemy")
@@ -50,19 +50,19 @@ var highScore = d3.select('#highScore');
 svg.on("mousemove", function(){
   hero.attr("x", function(){
     var x = d3.mouse(this)[0] - 0.5 * heroWidth;
-    if(x < (700-heroWidth) && x > 0){
+    if(x < (700- 0.5 * heroWidth) && x > 0){
       return x;
-    } else if (x > (700-heroWidth)) {
-      return (700-heroWidth);
+    } else if (x > (700 - 0.5 * heroWidth)) {
+      return (700 - 0.5 * heroWidth);
     } else {
       return 0;
     }
   }).attr("y", function(){
     var y = d3.mouse(this)[1]- 0.5 * heroHeight;
-    if(y < (450-heroHeight) && y > 0){
+    if(y < (450 - 0.5 * heroHeight) && y > 0){
       return y;
-    } else if (y > (450-heroHeight)) {
-      return (450-heroHeight);
+    } else if (y > (450 - 0.5 * heroHeight)) {
+      return (450 - 0.5 * heroHeight);
     } else {
       return 0;
     }
@@ -134,7 +134,7 @@ var collisionCheck = function(){
     currentScore.text(currentScoreNum+1);
   }
   if(honeyDetected()){
-    currentScore.text(currentScoreNum+100);
+    currentScore.text(currentScoreNum+125);
     honey.attr({
       "x": function(){ return 15 + Math.random()*620;},
       "y": function(){ return 15 + Math.random()*360;}
